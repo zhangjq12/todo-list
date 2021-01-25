@@ -1,23 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import AddArea from './component/addArea';
+import DragArea from './component/dragArea';
 
-function App() {
+const App = () => {
+  const [todoList, setTodoList] = useState([]);
+
+  const getValue = (value) => {
+    let arr = [...todoList];
+    arr.push(value);
+    setTodoList(arr);
+  }
+  
+  const deleteItem = (index) => {
+    let arr = [...todoList];
+    arr.splice(index, 1);
+    setTodoList(arr);
+  }
+
+  const selectedItem = (index) => {
+    console.log(index);
+    let arr = [...todoList];
+    arr[index].select = !arr[index].select;
+    setTodoList(arr);
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          border: '1px solid lightgray',
+          margin: '10px'
+        }}
+      >
+        <AddArea getvalue={getValue}></AddArea>
+        <DragArea todoList={todoList} deleteItem={deleteItem} selectedItem={selectedItem}></DragArea>
+      </div>
     </div>
   );
 }
